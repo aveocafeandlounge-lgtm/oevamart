@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import { BarChart, Plus, Search, Filter, Download, Calendar, TrendingUp, DollarSign, Package, Users, ArrowRight, FileText, PieChart } from 'lucide-react'
+import { BarChart, Plus, Search, Filter, TrendingUp, DollarSign, Package, Users, ArrowRight, FileText, PieChart } from 'lucide-react'
 import { useStore } from '../context/StoreContext'
 
 export default function Reports() {
-  const { salesInvoices, products, expenses, employees, customers } = useStore()
+  const { salesInvoices, products, expenses, customers } = useStore()
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('All')
   const [showGenerateModal, setShowGenerateModal] = useState(false)

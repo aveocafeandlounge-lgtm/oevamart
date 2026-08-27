@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import { Receipt, Plus, Search, Filter, DollarSign, TrendingUp, Calendar, Eye, Edit, Trash2, ArrowRight, Building2 } from 'lucide-react'
+import { Receipt, Plus, Search, Filter, DollarSign, Calendar, ArrowRight, Eye, Edit, Trash2 } from 'lucide-react'
 import { useStore } from '../context/StoreContext'
 
 const expenseCategories = ['Utilities', 'Rent', 'Salaries', 'Supplies', 'Marketing', 'Maintenance', 'Travel', 'Other']
 
 export default function Expenses() {
-  const { expenses, addExpense, updateExpense, deleteExpense } = useStore()
+  const { expenses, addExpense, deleteExpense } = useStore()
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('All')
   const [selectedStatus, setSelectedStatus] = useState('All')
@@ -16,7 +16,7 @@ export default function Expenses() {
     description: '',
     amount: 0,
     date: new Date().toISOString().split('T')[0],
-    status: 'pending' as 'paid' | 'pending' | 'cancelled',
+    status: 'paid' as 'paid' | 'pending',
     paymentMethod: 'Cash',
   })
 

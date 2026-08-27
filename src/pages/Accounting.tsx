@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import { Calculator, Plus, Search, Filter, FileText, DollarSign, TrendingUp, TrendingDown, Eye, Edit, Trash2, ArrowRight, BookOpen } from 'lucide-react'
+import { Plus, Search, Filter, FileText, TrendingUp, TrendingDown, Download, Calendar, ArrowRight, Check, X, BookOpen, Eye, Edit, Trash2 } from 'lucide-react'
 import { useStore } from '../context/StoreContext'
 
 export default function Accounting() {
-  const { journalEntries, addJournalEntry, updateJournalEntry, deleteJournalEntry } = useStore()
+  const { journalEntries, addJournalEntry, deleteJournalEntry } = useStore()
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedStatus, setSelectedStatus] = useState('All')
   const [showAddModal, setShowAddModal] = useState(false)
@@ -27,7 +27,6 @@ export default function Accounting() {
 
   const totalDebit = journalEntries.reduce((sum, entry) => sum + entry.debit, 0)
   const totalCredit = journalEntries.reduce((sum, entry) => sum + entry.credit, 0)
-  const postedEntries = journalEntries.filter(e => e.status === 'posted').length
   const draftEntries = journalEntries.filter(e => e.status === 'draft').length
 
   return (

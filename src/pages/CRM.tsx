@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import { MessageSquare, Plus, Search, Filter, Phone, Mail, Calendar, Eye, Edit, Trash2, ArrowRight, User, Star, Clock } from 'lucide-react'
+import { Users, Plus, Search, Filter, Phone, Mail, MapPin, Eye, Edit, Trash2, ArrowRight, User, Star, Clock, MessageSquare } from 'lucide-react'
 import { useStore } from '../context/StoreContext'
 
 export default function CRM() {
-  const { leads, addLead, updateLead, deleteLead } = useStore()
+  const { leads, addLead, deleteLead } = useStore()
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedStatus, setSelectedStatus] = useState('All')
   const [showAddModal, setShowAddModal] = useState(false)

@@ -3,7 +3,7 @@ import { Truck, Plus, Search, Filter, Phone, MapPin, DollarSign, Eye, Edit, Tras
 import { useStore } from '../context/StoreContext'
 
 export default function Suppliers() {
-  const { suppliers, addSupplier, updateSupplier, deleteSupplier } = useStore()
+  const { suppliers, addSupplier, deleteSupplier } = useStore()
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedStatus, setSelectedStatus] = useState('All')
   const [showAddModal, setShowAddModal] = useState(false)

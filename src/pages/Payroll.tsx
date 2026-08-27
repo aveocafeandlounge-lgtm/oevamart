@@ -3,7 +3,7 @@ import { Users, Plus, Search, Filter, DollarSign, Calendar, Eye, Edit, Trash2, A
 import { useStore } from '../context/StoreContext'
 
 export default function Payroll() {
-  const { employees, payrollRecords, addEmployee, updateEmployee, deleteEmployee, addPayrollRecord, deletePayrollRecord } = useStore()
+  const { employees, payrollRecords, addEmployee, addPayrollRecord, deletePayrollRecord } = useStore()
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedMonth, setSelectedMonth] = useState('All')
   const [selectedStatus, setSelectedStatus] = useState('All')

@@ -3,7 +3,7 @@ import { Users, Plus, Search, Filter, Phone, MapPin, DollarSign, Eye, Edit, Tras
 import { useStore } from '../context/StoreContext'
 
 export default function Customers() {
-  const { customers, addCustomer, updateCustomer, deleteCustomer } = useStore()
+  const { customers, addCustomer, deleteCustomer } = useStore()
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedStatus, setSelectedStatus] = useState('All')
   const [showAddModal, setShowAddModal] = useState(false)

@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import { Utensils, Plus, Search, Filter, Users, Clock, DollarSign, Eye, Edit, Trash2, ArrowRight, CheckCircle, XCircle, Coffee } from 'lucide-react'
+import { Utensils, Plus, Search, Filter, Users, Clock, Eye, Edit, Trash2, ArrowRight, CheckCircle, XCircle, Coffee } from 'lucide-react'
 import { useStore } from '../context/StoreContext'
 
 export default function Tables() {
-  const { tables, addTable, updateTable, deleteTable } = useStore()
+  const { tables, addTable, deleteTable } = useStore()
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedStatus, setSelectedStatus] = useState('All')
   const [showAddModal, setShowAddModal] = useState(false)

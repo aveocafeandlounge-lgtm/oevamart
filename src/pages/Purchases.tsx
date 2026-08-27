@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import { ShoppingCart, Plus, Search, Filter, FileText, Truck, CheckCircle, Clock, XCircle, Eye, Edit, Trash2, ArrowRight } from 'lucide-react'
+import { Plus, Search, Filter, Package, ArrowRight, Eye, Edit, Trash2, Clock, CheckCircle, XCircle, FileText, Truck } from 'lucide-react'
 import { useStore } from '../context/StoreContext'
 
 export default function Purchases() {
-  const { purchaseOrders, suppliers, addPurchaseOrder, updatePurchaseOrder, deletePurchaseOrder } = useStore()
+  const { purchaseOrders, suppliers, addPurchaseOrder, deletePurchaseOrder } = useStore()
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedStatus, setSelectedStatus] = useState('All')
   const [showAddModal, setShowAddModal] = useState(false)

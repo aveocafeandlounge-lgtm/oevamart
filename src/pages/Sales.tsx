@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import { TrendingUp, Plus, Search, Filter, FileText, DollarSign, CheckCircle, Clock, XCircle, Eye, Edit, Trash2, ArrowRight, Download } from 'lucide-react'
+import { ShoppingCart, Plus, Search, Filter, DollarSign, Calendar, ArrowRight, Eye, Edit, Trash2, Download, Clock, CheckCircle, XCircle, FileText } from 'lucide-react'
 import { useStore } from '../context/StoreContext'
 
 export default function Sales() {
-  const { salesInvoices, customers, addSalesInvoice, updateSalesInvoice, deleteSalesInvoice } = useStore()
+  const { salesInvoices, customers, addSalesInvoice, deleteSalesInvoice } = useStore()
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedStatus, setSelectedStatus] = useState('All')
   const [showAddModal, setShowAddModal] = useState(false)
@@ -13,7 +13,7 @@ export default function Sales() {
     invoiceNumber: '',
     customer: '',
     date: new Date().toISOString().split('T')[0],
-    status: 'pending' as 'completed' | 'pending' | 'cancelled',
+    status: 'completed' as 'completed' | 'pending' | 'cancelled',
     total: 0,
     paid: 0,
     items: 0,
@@ -30,7 +30,6 @@ export default function Sales() {
   })
 
   const totalSales = salesInvoices.reduce((sum, invoice) => sum + invoice.total, 0)
-  const totalPaid = salesInvoices.reduce((sum, invoice) => sum + invoice.paid, 0)
   const pendingInvoices = salesInvoices.filter(i => i.status === 'pending').length
   const completedInvoices = salesInvoices.filter(i => i.status === 'completed').length
 

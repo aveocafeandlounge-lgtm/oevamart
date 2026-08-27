@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import { Landmark, Plus, Search, Filter, DollarSign, TrendingUp, TrendingDown, Eye, Edit, Trash2, ArrowRight, CreditCard, Wallet } from 'lucide-react'
+import { CreditCard, Wallet, Smartphone, Plus, Search, Filter, ArrowRight, Eye, Edit, Trash2, Landmark, TrendingUp, TrendingDown } from 'lucide-react'
 import { useStore } from '../context/StoreContext'
 
 export default function Banking() {
-  const { bankAccounts, transactions, addBankAccount, updateBankAccount, deleteBankAccount, addTransaction, deleteTransaction } = useStore()
+  const { bankAccounts, transactions, addBankAccount, addTransaction, deleteTransaction } = useStore()
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedAccount, setSelectedAccount] = useState('All')
   const [showAddAccountModal, setShowAddAccountModal] = useState(false)

@@ -1,14 +1,13 @@
 import { useState } from 'react'
-import { Warehouse, Plus, Search, Filter, ArrowUpDown, AlertTriangle, Package, TrendingUp, TrendingDown, Edit, Trash2, ArrowRight } from 'lucide-react'
+import { Package, Plus, Search, Filter, Eye, Edit, Trash2, ArrowRight, AlertTriangle } from 'lucide-react'
 import { useStore } from '../context/StoreContext'
 
 export default function Inventory() {
-  const { products, addProduct, updateProduct, deleteProduct } = useStore()
+  const { products, addProduct, deleteProduct } = useStore()
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('All')
   const [showAddModal, setShowAddModal] = useState(false)
   const [showTransferModal, setShowTransferModal] = useState(false)
-  const [selectedItem, setSelectedItem] = useState<any>(null)
   const [newProduct, setNewProduct] = useState({
     name: '',
     sku: '',

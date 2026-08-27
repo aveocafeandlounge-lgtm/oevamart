@@ -381,7 +381,7 @@ export default function Landing() {
 
               {/* Features */}
               <div className="mb-8 space-y-6">
-                {Object.entries(plan.features).map(([category, features]) => (
+                {Object.entries(plan.features).map(([category, features]: [string, string[]]) => (
                   <div key={category}>
                     <h4 className="text-lg font-semibold text-slate-800 dark:text-white mb-3 capitalize">
                       {category.replace(/([A-Z])/g, ' $1').trim()}

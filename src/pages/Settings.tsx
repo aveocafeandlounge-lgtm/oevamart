@@ -4,7 +4,7 @@ import { useStore } from '../context/StoreContext'
 
 export default function Settings() {
   const [activeTab, setActiveTab] = useState('general')
-  const { settings, updateSettings, darkMode, toggleDarkMode, accentColor, setAccentColor } = useStore()
+  const { settings, updateSettings } = useStore()
 
   const tabs = [
     { id: 'general', label: 'General', icon: Building2 },
