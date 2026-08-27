@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Receipt, Plus, Search, Filter, DollarSign, Calendar, ArrowRight, Eye, Edit, Trash2 } from 'lucide-react'
+import { Receipt, Plus, Search, Filter, DollarSign, Calendar, ArrowRight, Eye, Edit, Trash2, Building2 } from 'lucide-react'
 import { useStore } from '../context/StoreContext'
 
 const expenseCategories = ['Utilities', 'Rent', 'Salaries', 'Supplies', 'Marketing', 'Maintenance', 'Travel', 'Other']
@@ -20,7 +20,7 @@ export default function Expenses() {
     paymentMethod: 'Cash',
   })
 
-  const statuses = ['All', 'paid', 'pending', 'cancelled']
+  const statuses = ['All', 'paid', 'pending']
   const categories = ['All', ...expenseCategories]
 
   const filteredExpenses = expenses.filter(expense => {

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Users, Plus, Search, Filter, Phone, Mail, MapPin, Eye, Edit, Trash2, ArrowRight, User, Star, Clock, MessageSquare } from 'lucide-react'
+import { Plus, Search, Filter, Phone, Mail, Eye, Edit, Trash2, ArrowRight, User, Star, Clock, MessageSquare } from 'lucide-react'
 import { useStore } from '../context/StoreContext'
 
 export default function CRM() {

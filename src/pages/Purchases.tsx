@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Plus, Search, Filter, Package, ArrowRight, Eye, Edit, Trash2, Clock, CheckCircle, XCircle, FileText, Truck } from 'lucide-react'
+import { Plus, Search, Filter, ArrowRight, Eye, Edit, Trash2, Clock, CheckCircle, XCircle, FileText, Truck } from 'lucide-react'
 import { useStore } from '../context/StoreContext'
 
 export default function Purchases() {

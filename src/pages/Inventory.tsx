@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Package, Plus, Search, Filter, Eye, Edit, Trash2, ArrowRight, AlertTriangle } from 'lucide-react'
+import { Package, Plus, Search, Filter, Edit, Trash2, ArrowRight, AlertTriangle, TrendingUp, TrendingDown } from 'lucide-react'
 import { useStore } from '../context/StoreContext'
 
 export default function Inventory() {

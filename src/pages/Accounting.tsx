@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Plus, Search, Filter, FileText, TrendingUp, TrendingDown, Download, Calendar, ArrowRight, Check, X, BookOpen, Eye, Edit, Trash2 } from 'lucide-react'
+import { Plus, Search, Filter, FileText, TrendingUp, TrendingDown, ArrowRight, BookOpen, Eye, Edit, Trash2 } from 'lucide-react'
 import { useStore } from '../context/StoreContext'
 
 export default function Accounting() {

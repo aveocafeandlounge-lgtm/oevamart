@@ -6,6 +6,14 @@ export default function Settings() {
   const [activeTab, setActiveTab] = useState('general')
   const { settings, updateSettings } = useStore()
 
+  const toggleDarkMode = () => {
+    updateSettings({ darkMode: !settings.darkMode })
+  }
+
+  const setAccentColor = (color: string) => {
+    updateSettings({ accentColor: color })
+  }
+
   const tabs = [
     { id: 'general', label: 'General', icon: Building2 },
     { id: 'profile', label: 'Profile', icon: User },

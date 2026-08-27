@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ShoppingCart, Plus, Search, Filter, DollarSign, Calendar, ArrowRight, Eye, Edit, Trash2, Download, Clock, CheckCircle, XCircle, FileText } from 'lucide-react'
+import { Plus, Search, Filter, DollarSign, ArrowRight, Eye, Edit, Trash2, Download, Clock, CheckCircle, XCircle, FileText } from 'lucide-react'
 import { useStore } from '../context/StoreContext'
 
 export default function Sales() {

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { CreditCard, Wallet, Smartphone, Plus, Search, Filter, ArrowRight, Eye, Edit, Trash2, Landmark, TrendingUp, TrendingDown } from 'lucide-react'
+import { Wallet, Plus, Search, Filter, ArrowRight, Eye, Edit, Trash2, Landmark, TrendingUp, TrendingDown } from 'lucide-react'
 import { useStore } from '../context/StoreContext'
 
 export default function Banking() {

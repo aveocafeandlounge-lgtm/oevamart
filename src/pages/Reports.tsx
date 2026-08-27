@@ -3,7 +3,7 @@ import { BarChart, Plus, Search, Filter, TrendingUp, DollarSign, Package, Users,
 import { useStore } from '../context/StoreContext'
 
 export default function Reports() {
-  const { salesInvoices, products, expenses, customers } = useStore()
+  const { salesInvoices, products, expenses, customers, employees } = useStore()
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('All')
   const [showGenerateModal, setShowGenerateModal] = useState(false)
@@ -14,7 +14,6 @@ export default function Reports() {
   const totalSales = salesInvoices.reduce((sum, inv) => sum + inv.total, 0)
   const totalInventory = products.reduce((sum, prod) => sum + prod.stock, 0)
   const totalExpenses = expenses.reduce((sum, exp) => sum + exp.amount, 0)
-  const totalEmployees = employees.length
   const totalCustomers = customers.length
 
   return (
