@@ -274,12 +274,11 @@ export default function Expenses() {
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Status</label>
                 <select 
                   value={newExpense.status}
-                  onChange={(e) => setNewExpense({ ...newExpense, status: e.target.value as 'paid' | 'pending' | 'cancelled' })}
+                  onChange={(e) => setNewExpense({ ...newExpense, status: e.target.value as 'paid' | 'pending' })}
                   className="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800"
                 >
                   <option value="pending">Pending</option>
                   <option value="paid">Paid</option>
-                  <option value="cancelled">Cancelled</option>
                 </select>
               </div>
               <div>
