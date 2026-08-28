@@ -114,12 +114,6 @@ export default function Login() {
           </p>
         </div>
 
-        <p className="mt-8 text-center text-sm text-slate-500 dark:text-slate-400">
-          <Link to="/" className="flex items-center justify-center gap-2 hover:text-slate-700 dark:hover:text-slate-300">
-            <ArrowRight className="w-4 h-4 rotate-180" />
-            Back to Home
-          </Link>
-        </p>
       </div>
     </div>
   )
