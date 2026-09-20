@@ -1,5 +1,13 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import type { ReactNode } from 'react'
+import { db } from '../firebase'
+import { 
+  collection, 
+  doc, 
+  getDocs, 
+  setDoc, 
+  addDoc 
+} from 'firebase/firestore'
 
 // Types for all entities
 interface Product {
@@ -357,63 +365,168 @@ const initialSettings: AppSettings = {
 // Helper function to generate ID
 const generateId = () => Math.random().toString(36).substr(2, 9)
 
-// Helper to save to localStorage
-const saveToStorage = (key: string, data: any) => {
+// Helper to load data from Firestore
+const loadFromFirestore = async (collectionName: string, defaultValue: any) => {
   try {
-    localStorage.setItem(key, JSON.stringify(data))
+    const querySnapshot = await getDocs(collection(db, collectionName))
+    const data: any[] = []
+    querySnapshot.forEach((doc) => {
+      data.push({ id: doc.id, ...doc.data() })
+    })
+    return data.length > 0 ? data : defaultValue
   } catch (error) {
-    console.error('Error saving to localStorage:', error)
-  }
-}
-
-// Helper to load from localStorage
-const loadFromStorage = (key: string, defaultValue: any) => {
-  try {
-    const stored = localStorage.getItem(key)
-    return stored ? JSON.parse(stored) : defaultValue
-  } catch (error) {
-    console.error('Error loading from localStorage:', error)
+    console.error(`Error loading from Firestore (${collectionName}):`, error)
     return defaultValue
   }
 }
 
-export function StoreProvider({ children }: { children: ReactNode }) {
-  // Load data from localStorage or use initial data
-  const [products, setProducts] = useState<Product[]>(() => loadFromStorage('products', initialProducts))
-  const [customers, setCustomers] = useState<Customer[]>(() => loadFromStorage('customers', initialCustomers))
-  const [suppliers, setSuppliers] = useState<Supplier[]>(() => loadFromStorage('suppliers', initialSuppliers))
-  const [salesInvoices, setSalesInvoices] = useState<SalesInvoice[]>(() => loadFromStorage('salesInvoices', initialSalesInvoices))
-  const [purchaseOrders, setPurchaseOrders] = useState<PurchaseOrder[]>(() => loadFromStorage('purchaseOrders', initialPurchaseOrders))
-  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>(() => loadFromStorage('journalEntries', initialJournalEntries))
-  const [expenses, setExpenses] = useState<Expense[]>(() => loadFromStorage('expenses', initialExpenses))
-  const [bankAccounts, setBankAccounts] = useState<BankAccount[]>(() => loadFromStorage('bankAccounts', initialBankAccounts))
-  const [transactions, setTransactions] = useState<Transaction[]>(() => loadFromStorage('transactions', initialTransactions))
-  const [employees, setEmployees] = useState<Employee[]>(() => loadFromStorage('employees', initialEmployees))
-  const [payrollRecords, setPayrollRecords] = useState<PayrollRecord[]>(() => loadFromStorage('payrollRecords', initialPayrollRecords))
-  const [leads, setLeads] = useState<Lead[]>(() => loadFromStorage('leads', initialLeads))
-  const [tables, setTables] = useState<Table[]>(() => loadFromStorage('tables', initialTables))
-  const [settings, setSettingsState] = useState<AppSettings>(() => loadFromStorage('settings', initialSettings))
-  
-  const [darkMode, setDarkMode] = useState(() => loadFromStorage('darkMode', false))
-  const [accentColor, setAccentColorState] = useState(() => loadFromStorage('accentColor', 'blue'))
+// Helper to save single document to Firestore
+const saveToFirestore = async (collectionName: string, data: any) => {
+  try {
+    if (data.id) {
+      await setDoc(doc(db, collectionName, data.id), data)
+    } else {
+      await addDoc(collection(db, collectionName), data)
+    }
+  } catch (error) {
+    console.error(`Error saving to Firestore (${collectionName}):`, error)
+  }
+}
 
-  // Save to localStorage whenever data changes
-  useEffect(() => { saveToStorage('products', products) }, [products])
-  useEffect(() => { saveToStorage('customers', customers) }, [customers])
-  useEffect(() => { saveToStorage('suppliers', suppliers) }, [suppliers])
-  useEffect(() => { saveToStorage('salesInvoices', salesInvoices) }, [salesInvoices])
-  useEffect(() => { saveToStorage('purchaseOrders', purchaseOrders) }, [purchaseOrders])
-  useEffect(() => { saveToStorage('journalEntries', journalEntries) }, [journalEntries])
-  useEffect(() => { saveToStorage('expenses', expenses) }, [expenses])
-  useEffect(() => { saveToStorage('bankAccounts', bankAccounts) }, [bankAccounts])
-  useEffect(() => { saveToStorage('transactions', transactions) }, [transactions])
-  useEffect(() => { saveToStorage('employees', employees) }, [employees])
-  useEffect(() => { saveToStorage('payrollRecords', payrollRecords) }, [payrollRecords])
-  useEffect(() => { saveToStorage('leads', leads) }, [leads])
-  useEffect(() => { saveToStorage('tables', tables) }, [tables])
-  useEffect(() => { saveToStorage('settings', settings) }, [settings])
-  useEffect(() => { saveToStorage('darkMode', darkMode) }, [darkMode])
-  useEffect(() => { saveToStorage('accentColor', accentColor) }, [accentColor])
+export function StoreProvider({ children }: { children: ReactNode }) {
+  // Load data from Firestore or use initial data
+  const [products, setProducts] = useState<Product[]>(initialProducts)
+  const [customers, setCustomers] = useState<Customer[]>(initialCustomers)
+  const [suppliers, setSuppliers] = useState<Supplier[]>(initialSuppliers)
+  const [salesInvoices, setSalesInvoices] = useState<SalesInvoice[]>(initialSalesInvoices)
+  const [purchaseOrders, setPurchaseOrders] = useState<PurchaseOrder[]>(initialPurchaseOrders)
+  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>(initialJournalEntries)
+  const [expenses, setExpenses] = useState<Expense[]>(initialExpenses)
+  const [bankAccounts, setBankAccounts] = useState<BankAccount[]>(initialBankAccounts)
+  const [transactions, setTransactions] = useState<Transaction[]>(initialTransactions)
+  const [employees, setEmployees] = useState<Employee[]>(initialEmployees)
+  const [payrollRecords, setPayrollRecords] = useState<PayrollRecord[]>(initialPayrollRecords)
+  const [leads, setLeads] = useState<Lead[]>(initialLeads)
+  const [tables, setTables] = useState<Table[]>(initialTables)
+  const [settings, setSettingsState] = useState<AppSettings>(initialSettings)
+  
+  const [darkMode, setDarkMode] = useState(false)
+  const [accentColor, setAccentColorState] = useState('blue')
+  const [loading, setLoading] = useState(true)
+
+  // Load data from Firestore on mount
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const [
+          productsData,
+          customersData,
+          suppliersData,
+          salesInvoicesData,
+          purchaseOrdersData,
+          journalEntriesData,
+          expensesData,
+          bankAccountsData,
+          transactionsData,
+          employeesData,
+          payrollRecordsData,
+          leadsData,
+          tablesData,
+          settingsData
+        ] = await Promise.all([
+          loadFromFirestore('products', initialProducts),
+          loadFromFirestore('customers', initialCustomers),
+          loadFromFirestore('suppliers', initialSuppliers),
+          loadFromFirestore('salesInvoices', initialSalesInvoices),
+          loadFromFirestore('purchaseOrders', initialPurchaseOrders),
+          loadFromFirestore('journalEntries', initialJournalEntries),
+          loadFromFirestore('expenses', initialExpenses),
+          loadFromFirestore('bankAccounts', initialBankAccounts),
+          loadFromFirestore('transactions', initialTransactions),
+          loadFromFirestore('employees', initialEmployees),
+          loadFromFirestore('payrollRecords', initialPayrollRecords),
+          loadFromFirestore('leads', initialLeads),
+          loadFromFirestore('tables', initialTables),
+          loadFromFirestore('settings', initialSettings)
+        ])
+
+        setProducts(productsData)
+        setCustomers(customersData)
+        setSuppliers(suppliersData)
+        setSalesInvoices(salesInvoicesData)
+        setPurchaseOrders(purchaseOrdersData)
+        setJournalEntries(journalEntriesData)
+        setExpenses(expensesData)
+        setBankAccounts(bankAccountsData)
+        setTransactions(transactionsData)
+        setEmployees(employeesData)
+        setPayrollRecords(payrollRecordsData)
+        setLeads(leadsData)
+        setTables(tablesData)
+        setSettingsState(settingsData)
+        
+        // Load theme settings
+        const darkModeData = await loadFromFirestore('theme', { darkMode: false })
+        const accentColorData = await loadFromFirestore('theme', { accentColor: 'blue' })
+        setDarkMode(darkModeData.darkMode || false)
+        setAccentColorState(accentColorData.accentColor || 'blue')
+        
+        setLoading(false)
+      } catch (error) {
+        console.error('Error loading data from Firestore:', error)
+        setLoading(false)
+      }
+    }
+
+    loadData()
+  }, [])
+
+  // Save to Firestore whenever data changes
+  useEffect(() => { 
+    if (!loading) saveToFirestore('products', products) 
+  }, [products, loading])
+  useEffect(() => { 
+    if (!loading) saveToFirestore('customers', customers) 
+  }, [customers, loading])
+  useEffect(() => { 
+    if (!loading) saveToFirestore('suppliers', suppliers) 
+  }, [suppliers, loading])
+  useEffect(() => { 
+    if (!loading) saveToFirestore('salesInvoices', salesInvoices) 
+  }, [salesInvoices, loading])
+  useEffect(() => { 
+    if (!loading) saveToFirestore('purchaseOrders', purchaseOrders) 
+  }, [purchaseOrders, loading])
+  useEffect(() => { 
+    if (!loading) saveToFirestore('journalEntries', journalEntries) 
+  }, [journalEntries, loading])
+  useEffect(() => { 
+    if (!loading) saveToFirestore('expenses', expenses) 
+  }, [expenses, loading])
+  useEffect(() => { 
+    if (!loading) saveToFirestore('bankAccounts', bankAccounts) 
+  }, [bankAccounts, loading])
+  useEffect(() => { 
+    if (!loading) saveToFirestore('transactions', transactions) 
+  }, [transactions, loading])
+  useEffect(() => { 
+    if (!loading) saveToFirestore('employees', employees) 
+  }, [employees, loading])
+  useEffect(() => { 
+    if (!loading) saveToFirestore('payrollRecords', payrollRecords) 
+  }, [payrollRecords, loading])
+  useEffect(() => { 
+    if (!loading) saveToFirestore('leads', leads) 
+  }, [leads, loading])
+  useEffect(() => { 
+    if (!loading) saveToFirestore('tables', tables) 
+  }, [tables, loading])
+  useEffect(() => { 
+    if (!loading) saveToFirestore('settings', settings) 
+  }, [settings, loading])
+  useEffect(() => { 
+    if (!loading) saveToFirestore('theme', { darkMode, accentColor }) 
+  }, [darkMode, accentColor, loading])
 
   // Apply dark mode to document
   useEffect(() => {
