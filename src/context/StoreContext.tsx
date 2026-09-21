@@ -383,10 +383,22 @@ const loadFromFirestore = async (collectionName: string, defaultValue: any) => {
 // Helper to save single document to Firestore
 const saveToFirestore = async (collectionName: string, data: any) => {
   try {
-    if (data.id) {
-      await setDoc(doc(db, collectionName, data.id), data)
+    // If data is an array, save each item as a separate document
+    if (Array.isArray(data)) {
+      for (const item of data) {
+        if (item.id) {
+          await setDoc(doc(db, collectionName, item.id), item)
+        } else {
+          await addDoc(collection(db, collectionName), item)
+        }
+      }
     } else {
-      await addDoc(collection(db, collectionName), data)
+      // Single object
+      if (data.id) {
+        await setDoc(doc(db, collectionName, data.id), data)
+      } else {
+        await addDoc(collection(db, collectionName), data)
+      }
     }
   } catch (error) {
     console.error(`Error saving to Firestore (${collectionName}):`, error)
